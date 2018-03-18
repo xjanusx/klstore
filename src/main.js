@@ -9,9 +9,6 @@ import 'vuetify/dist/vuetify.min.css'
 // import firebase from './lib/firebase'
 // Vue.use(firebase)
 
-import axios from 'axios'
-Vue.use(axios)
-
 Vue.use(Vuetify, { theme: {
   primary: '#ee44aa',
   secondary: '#424242',
@@ -28,7 +25,6 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
-  axios,
   // firebase,
   components: { App },
   template: '<App/>'

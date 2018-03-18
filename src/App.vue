@@ -140,11 +140,14 @@ export default {
     },
     logUserIn () {
       console.log('Logging in with ' + this.email + ' and ' + this.password)
-      firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+      firebase.app.auth().signInWithEmailAndPassword(this.email, this.password)
         .then((res) => {
           this.user.email = res.email
           this.user.lastlog = res.metadata.lastSignInTime
           console.log(this.user)
+          firebase.collection('users').where('email', '==', this.email).get().then(querySnapshot => {
+            console.log(querySnapshot)
+          })
         })
         .catch((error) => {
           console.log(error.message)
