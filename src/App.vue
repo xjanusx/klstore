@@ -75,7 +75,7 @@
         ></v-text-field>
         <v-spacer></v-spacer>              
         <v-btn
-        @click.native="submit"
+        @click.native="logUserIn"
         :disabled="!valid"
         class="primary dark"
         >
@@ -98,13 +98,17 @@
 </template>
 
 <script>
+import firebase from './lib/firebase'
 export default {
   data () {
     return {
       isLoggedIn: false,
       loginDialog: false,
       user: {
-        name: 'Samad SANT-ANA'
+        name: null,
+        email: null,
+        profile: null,
+        lastlog: null
       },
       sideNav: 'persistent',
       sideNavItems: [
@@ -134,10 +138,21 @@ export default {
     logout () {
       this.isLoggedIn = false
     },
-    submit () {
-      this.loginDialog = false
-      this.isLoggedIn = true
-      console.log('Logged In')
+    logUserIn () {
+      console.log('Logging in with ' + this.email + ' and ' + this.password)
+      firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+        .then((res) => {
+          this.user.email = res.email
+          this.user.lastlog = res.metadata.lastSignInTime
+          console.log(this.user)
+        })
+        .catch((error) => {
+          console.log(error.message)
+        })
+      // firebase.default.
+      // this.loginDialog = false
+      // this.isLoggedIn = true
+      // console.log('Logged In')
     }
   },
   name: 'App'
