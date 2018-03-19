@@ -24,7 +24,7 @@
 		<v-toolbar-side-icon @click="sideNav = !sideNav"></v-toolbar-side-icon>
 		  <v-toolbar-title>
 			<router-link to="/" tag="span" style="cursor: pointer">
-      KHIS & LAIGHT
+      KHISS & LAIGHT
       </router-link>
 		  </v-toolbar-title>	  		  
 		  <v-spacer></v-spacer>
@@ -57,7 +57,7 @@
           </v-toolbar-title>
         </v-toolbar>
       <v-card-text>
-      <v-form v-model="valid" ref="form" lazy-validation>
+      <v-form v-model="valid" ref="form" @submit="logUserIn" lazy-validation>
         <v-text-field
         label="E-mail"
         v-model="email"
@@ -144,15 +144,20 @@ export default {
         .then((res) => {
           this.user.email = res.email
           this.user.lastlog = res.metadata.lastSignInTime
-          console.log(this.user)
           firebase.collection('users').where('email', '==', this.email).get().then(querySnapshot => {
-            console.log(querySnapshot)
+            querySnapshot.forEach(val => {
+              this.user.name = val.data().name
+              this.user.profile = val.data().profile
+              this.loginDialog = false
+              this.isLoggedIn = true
+              alert('Logged in as ' + this.user.name)
+            })
           })
         })
         .catch((error) => {
           console.log(error.message)
+          alert(error)
         })
-      // firebase.default.
       // this.loginDialog = false
       // this.isLoggedIn = true
       // console.log('Logged In')
