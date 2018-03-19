@@ -4,25 +4,23 @@
       <v-layout row wrap>
         <v-flex xs12>
         <v-card>
-          <v-card-title>
-            <v-toolbar flat>
-              <v-toolbar-title>
-                Commandes
-              </v-toolbar-title>
-            </v-toolbar>
-              <v-spacer></v-spacer>   
-              <v-flex xs12>
-              <v-flex sm3 right>
-                  <v-text-field
-                  append-icon="search"
-                  label="Rechercher"
-                  single-line
-                  hide-details
-                  v-model="search"
-                ></v-text-field>
-              </v-flex>
-              </v-flex>
-          </v-card-title>
+          <v-toolbar flat>
+            <v-toolbar-title>
+              <h1>Commandes</h1>
+            </v-toolbar-title>
+          </v-toolbar>
+            <v-spacer></v-spacer>   
+            <v-flex xs12>
+            <v-flex sm3 right>
+                <v-text-field
+                append-icon="search"
+                label="Rechercher"
+                single-line
+                hide-details
+                v-model="search"
+              ></v-text-field>
+            </v-flex>
+            </v-flex>
         <v-data-table
           :headers="headers"
           :items="items"

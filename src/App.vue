@@ -2,7 +2,7 @@
   <!-- Global wrapper for the Vue app  -->
   <v-app>
     <!-- Navigation drawer -->
-	  <v-navigation-drawer fixed clipped app v-model="sideNav">
+	  <v-navigation-drawer fixed clipped app v-model="sideNav" v-if="isLoggedIn">
       <v-list>
         <v-list-tile  v-for="item in sideNavItems" :key="item.title" :to="item.link">
           <v-list-tile-action>
@@ -38,7 +38,7 @@
 				  <v-icon left>face</v-icon>
 				  {{user.name}}
 			  </v-btn>
-        <v-btn flat v-if="isLoggedIn" @click="logout"> 
+        <v-btn flat v-if="isLoggedIn" @click="logUserOut"> 
 				  <v-icon left>lock</v-icon>
 				  Logout
 			  </v-btn>
@@ -77,6 +77,7 @@
         <v-btn
         @click.native="logUserIn"
         :disabled="!valid"
+        :loading="btnLoading"
         class="primary dark"
         >
         Valider
@@ -89,6 +90,7 @@
 	  <v-content app>
 		  <router-view></router-view>
 	  </v-content>
+    <v-flex xs12 class="mb-3"></v-flex>
     <v-footer>
       <v-spacer></v-spacer>
       <span>&copy; Aries.io 2017 </span>
@@ -113,8 +115,8 @@ export default {
       sideNav: 'persistent',
       sideNavItems: [
         { icon: 'dashboard', title: 'Tableau de Bord', link: '/dashboard' },
-        { icon: 'shopping_cart', title: 'Commandes', link: '/orders' },
         { icon: 'card_giftcard', title: 'Catalogue', link: '/' },
+        { icon: 'shopping_cart', title: 'Commandes', link: '/orders' },
         { icon: 'group', title: 'Clients', link: '/clients' },
         { icon: 'group_work', title: 'Fournisseurs', link: '/suppliers' }
       ],
@@ -131,15 +133,14 @@ export default {
       ],
       passwordRules: [
         (v) => !!v || 'Mot de passe requis'
-      ]
+      ],
+      btnLoading: false
     }
   },
   methods: {
-    logout () {
-      this.isLoggedIn = false
-    },
     logUserIn () {
-      console.log('Logging in with ' + this.email + ' and ' + this.password)
+      // console.log('Logging in with ' + this.email + ' and ' + this.password)
+      this.btnLoading = true
       firebase.app.auth().signInWithEmailAndPassword(this.email, this.password)
         .then((res) => {
           this.user.email = res.email
@@ -151,16 +152,27 @@ export default {
               this.loginDialog = false
               this.isLoggedIn = true
               alert('Logged in as ' + this.user.name)
+              this.btnLoading = false
+              this.sideNav = 'persistent'
             })
           })
         })
         .catch((error) => {
           console.log(error.message)
           alert(error)
+          this.loginDialog = false
         })
-      // this.loginDialog = false
-      // this.isLoggedIn = true
-      // console.log('Logged In')
+    },
+    logUserOut () {
+      firebase.app.auth().signOut()
+        .then(() => {
+          this.isLoggedIn = false
+          this.user = null
+          this.$router.push('/')
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   },
   name: 'App'
