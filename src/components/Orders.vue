@@ -27,7 +27,7 @@
           :search="search"
         >
           <template slot="items" slot-scope="props">
-            <tr @click="select" style="cursor: pointer">
+            <tr @click="select(props.item)" style="cursor: pointer">
               <!-- <td>{{ props.item.name }}</td> -->
               <td class="text-xs-left"> <img :src="props.item.imageUrl" height="100px" /></td>
               <td class="text-xs-left">{{ props.item.id }}</td>
@@ -45,6 +45,36 @@
         </v-flex>
     </v-layout>
   </v-container>
+  <!-- Dialogs -->
+    <v-dialog v-model="itemDialog" max-width="800px">
+      <v-card v-model="item">
+        <v-toolbar flat>
+          <h1>
+           {{item.title}}
+          </h1>
+        </v-toolbar>
+        <v-container>
+          <v-card-media :src="item.imageUrl" height="600px"></v-card-media>
+          <v-list>
+            <v-list-tile>
+            Client: {{item.client}}              
+            </v-list-tile>
+            <v-list-tile>
+            N°: {{item.id}}              
+            </v-list-tile>
+            <v-list-tile>
+            Quantité demandée: {{item.quantity}}              
+            </v-list-tile>
+            <v-list-tile>
+            Prix Unitaire: {{item.price}}              
+            </v-list-tile>
+            <v-list-tile>
+            Description: {{item.description}}              
+            </v-list-tile>
+          </v-list>
+        </v-container>
+      </v-card>
+    </v-dialog>  
   </v-layout>
 </template>
 
@@ -53,6 +83,7 @@
 export default {
   data () {
     return {
+      itemDialog: false,
       search: '',
       headers: [
         { text: 'Aperçu', value: 'imageUrl', align: 'left' },
@@ -62,6 +93,15 @@ export default {
         { text: 'Quantité', value: 'quantity' },
         { text: 'Description', value: 'description' }
       ],
+      item: {
+        imageUrl: '',
+        id: '',
+        title: '',
+        description: '',
+        price: '',
+        quantity: '',
+        client: ''
+      },
       items: [
         {
           imageUrl:
@@ -147,8 +187,15 @@ export default {
     }
   },
   methods: {
-    select () {
-      console.log('Selected')
+    select (item) {
+      this.itemDialog = true
+      this.item.id = item.id
+      this.item.imageUrl = item.imageUrl
+      this.item.client = item.client
+      this.item.title = item.title
+      this.item.description = item.description
+      this.item.price = item.price
+      this.item.quantity = item.quantity
     }
   }
 }

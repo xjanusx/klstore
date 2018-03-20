@@ -102,6 +102,9 @@
             {{user.email}}              
             </p>
             <p>
+              Profil: {{user.profile}}
+            </p>
+            <p>
               Dernière connexion: {{user.lastlog}}
             </p>
           </div>
