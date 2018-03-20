@@ -34,7 +34,7 @@
 				  <v-icon left>{{item.icon}}</v-icon>
 				  {{item.title}}
 			  </v-btn> -->
-			  <v-btn flat v-if="isLoggedIn"> 
+			  <v-btn flat v-if="isLoggedIn" @click="userDialog=true"> 
 				  <v-icon left>face</v-icon>
 				  {{user.name}}
 			  </v-btn>
@@ -62,6 +62,7 @@
         label="E-mail"
         v-model="email"
         :rules="emailRules"
+        autofocus
         required
         ></v-text-field>
         <v-text-field
@@ -86,6 +87,31 @@
     </v-card-text>
   </v-card>
   </v-dialog>
+  <!-- User dialog -->
+    <v-dialog v-model="userDialog" temporary max-width="400">
+      <v-card>
+        <v-toolbar flat>
+          <v-toolbar-title>
+          <div class="headline">{{user.name}}</div>
+          </v-toolbar-title>
+        </v-toolbar>
+        <v-spacer></v-spacer>
+        <v-card-text>
+          <div class="grey--text">
+            <p>
+            {{user.email}}              
+            </p>
+            <p>
+              Dernière connexion: {{user.lastlog}}
+            </p>
+          </div>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="pink darken-1" flat="flat" @click.native="userDialog=false">Fermer</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 	 <!-- Main content of the application -->
 	  <v-content app>
 		  <router-view></router-view>
@@ -106,6 +132,7 @@ export default {
     return {
       isLoggedIn: false,
       loginDialog: false,
+      userDialog: false,
       user: {
         name: null,
         email: null,
@@ -167,7 +194,10 @@ export default {
       firebase.app.auth().signOut()
         .then(() => {
           this.isLoggedIn = false
-          this.user = null
+          this.name = null
+          this.email = null
+          this.profile = null
+          this.lastlog = null
           this.$router.push('/')
         })
         .catch(error => {
