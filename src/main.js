@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './lib/router'
+import {store} from './lib/store'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 
@@ -25,6 +26,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   // firebase,
   components: { App },
   template: '<App/>'

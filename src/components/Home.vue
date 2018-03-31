@@ -5,6 +5,17 @@
         <v-toolbar-title>
           <h1>Catalogue</h1>
         </v-toolbar-title>
+        <v-btn
+      absolute
+      dark
+      fab
+      bottom
+      right
+      color="pink"
+      @click="addDialog=true"
+    >
+      <v-icon>add</v-icon>
+    </v-btn>
       </v-toolbar>
       <v-container>
     <v-layout row wrap class="mb-3">
@@ -21,7 +32,7 @@
       </v-flex>
       </v-flex>
       <v-flex xs3 v-for="item in items" :key="item.id">
-        <v-card class="mb-3 mr-3" @click.native.stop="itemDialog=true" style="cursor: pointer" :hover=true :ripple=true>
+        <v-card class="mb-3 mr-3" @click.native.stop="viewItem(item)" style="cursor: pointer" :hover=true :ripple=true>
           <v-card-media :src="item.imageUrl" height="150px"></v-card-media>
           <v-card-title primary-title>
             <div>
@@ -36,28 +47,70 @@
     </v-layout>
     </v-container>
     <v-spacer></v-spacer>
-    <v-btn
-      absolute
-      dark
-      fab
-      bottom
-      right
-      color="pink"
-    >
-      <v-icon>add</v-icon>
-    </v-btn>
   </v-card>
   <!-- Item Dialog -->
-  <v-dialog v-model="itemDialog" max-width="400">
-    <v-card>
-      <v-card-title class="headline">Aperçu global de l'article </v-card-title>
-      <v-card-text></v-card-text>
+  <v-dialog v-model="itemDialog" max-width="800">
+    <v-card model="item">
+      <v-toolbar flat>
+        <v-toolbar-title>
+          <h3>{{item.title}}</h3>
+        </v-toolbar-title>
+      </v-toolbar>
+      <v-container>
+        <v-card-media :src="item.imageUrl" height="400px"></v-card-media>
+        <v-list>
+          <v-list-tile>
+          {{item.description}}              
+          </v-list-tile>
+        </v-list>
+      </v-container>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="pink darken-1" flat="flat" @click.native="itemDialog = false">Modifier</v-btn>
-        <v-btn color="pink darken-1" flat="flat" @click.native="itemDialog = false">Annuler</v-btn>
+        <v-btn color="pink darken-1" flat="flat" @click.native="itemDialog = false">Fermer</v-btn>
       </v-card-actions>
     </v-card>
+  </v-dialog>
+<!-- Add New Item dialog -->
+  <v-dialog v-model="addDialog" persistent max-width="600">
+    <v-card>
+      <v-toolbar class="pink darken-3" dark>
+        <v-toolbar-title>
+          Nouvel Article
+        </v-toolbar-title>
+      </v-toolbar>
+      <v-card-text>
+        <!-- <v-text-field
+          label="ID (will be auto-generated with a DB)"
+          v-model="id"
+          :counter="9"
+          required
+        ></v-text-field> -->
+        <v-text-field
+          label="Titre (12 max)"
+          v-model="item.title"
+          :counter="12"
+          required
+        ></v-text-field>
+        <v-text-field
+          label="Description"
+          v-model="item.description"
+          required
+        ></v-text-field>
+        <v-text-field
+          label="URL Image"
+          v-model="item.imageUrl"
+          required
+        ></v-text-field>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn dark color="blue" @click.prevent="submit(item)">
+          Entrer
+        </v-btn>
+        <v-btn dark color="grey" @click="addDialog=false">
+          Fermer
+        </v-btn>
+      </v-card-actions>
+      </v-card>
   </v-dialog>
   </v-container>
 </template>
@@ -68,6 +121,16 @@ export default {
     return {
       search: '',
       itemDialog: false,
+      addDialog: false,
+      item: {
+        imageUrl: '',
+        id: '',
+        title: '',
+        description: '',
+        price: '',
+        quantity: '',
+        client: ''
+      },
       items: [
         {
           imageUrl:
@@ -126,6 +189,26 @@ export default {
           description: 'Casquettes avec Logo personnalisé'
         }
       ]
+    }
+  },
+  methods: {
+    viewItem (item) {
+      this.itemDialog = true
+      this.item.id = item.id
+      this.item.imageUrl = item.imageUrl
+      this.item.client = item.client
+      this.item.title = item.title
+      this.item.description = item.description
+      this.item.price = item.price
+      this.item.quantity = item.quantity
+    },
+    submit (item) {
+      this.item.imageUrl = item.imageUrl
+      this.item.title = item.title
+      this.item.description = item.description
+      this.item.id = 'skmcieo23'
+      this.items.push(item)
+      this.addDialog = false
     }
   }
 }
