@@ -181,7 +181,7 @@ export default {
               this.user.profile = val.data().profile
               this.loginDialog = false
               this.isLoggedIn = true
-              alert('Logged in as ' + this.user.name)
+              // alert('Logged in as ' + this.user.name)
               this.btnLoading = false
               this.sideNav = 'persistent'
             })

@@ -103,7 +103,7 @@
         ></v-text-field>
       </v-card-text>
       <v-card-actions>
-        <v-btn dark color="blue" @click.prevent="submit(item)">
+        <v-btn dark color="blue" @click.native="submit(item)">
           Entrer
         </v-btn>
         <v-btn dark color="grey" @click="addDialog=false">
@@ -116,6 +116,7 @@
 </template>
 
 <script>
+import firebase from '../lib/firebase'
 export default {
   data () {
     return {
@@ -123,92 +124,121 @@ export default {
       itemDialog: false,
       addDialog: false,
       item: {
-        imageUrl: '',
         id: '',
+        imageUrl: '',
         title: '',
-        description: '',
-        price: '',
-        quantity: '',
-        client: ''
+        description: ''
       },
-      items: [
-        {
-          imageUrl:
-            'https://www.retif.eu/media/catalog/category/Sac_kraft_poignee_plate_2.jpg',
-          id: 'kjsndfoiew8493wwd',
-          title: 'Sac Papier Premium',
-          description: 'Sac en Papier de qualité Premium'
-        },
-        {
-          imageUrl:
-            'http://www.sudemballages.fr/site/images/normal/sac%20personnlise%20%20papier%20kraft%20blanc.jpg',
-          id: 'jsd8984932d',
-          title: 'Sac Papier Logo',
-          description: 'Sac en Papier avec logos et publicité'
-        },
-        {
-          imageUrl:
-            'http://www.detailspourinvites.com/32607-thickbox_default/sac-en-papier-d-co.jpg',
-          id: 'kddi984849377',
-          title: 'Sac en Papier Deco',
-          description: 'Sac en Papier décoré'
-        },
-        {
-          imageUrl:
-            'http://i2.cdscdn.com/pdt2/5/3/4/1/300x300/auc3700265803534/rw/salon-de-jardin-haut-avec-parasol-manhattan.jpg',
-          id: 'wuew9283we',
-          title: 'Salon Jardin',
-          description: 'Salon complet pour jardin'
-        },
-        {
-          imageUrl:
-            'http://i2.cdscdn.com/pdt2/9/5/4/1/300x300/mia4056282421954/rw/parasol-de-jardin-terrasse-deporte-rond-avec-maniv.jpg',
-          id: 'uiewuieuw',
-          title: 'Parasol de Jardin',
-          description: 'Parasol de Jardin ou Terrasse'
-        },
-        {
-          imageUrl:
-            'https://img1.etsystatic.com/200/0/13512889/il_340x270.1284844519_8mmy.jpg',
-          id: 'sdjdur',
-          title: 'Verres Fancy',
-          description: 'Verres à Vin personnalisés'
-        },
-        {
-          imageUrl:
-            'http://i2.cdscdn.com/pdt2/0/0/8/1/300x300/auc3561864810008/rw/porte-cle-sifflez-c-est-trouv.jpg',
-          id: '394nbskjdf',
-          title: 'Porte Clés',
-          description: 'Porte Clés avec LED et Bippeur'
-        },
-        {
-          imageUrl:
-            'http://www.monproduitdecom.com/images/produits/casquettes-6158.jpg',
-          id: 'mksd9275',
-          title: 'Casquettes avec Logo',
-          description: 'Casquettes avec Logo personnalisé'
-        }
-      ]
+      items: []
+      // items: [
+      //   {
+      //     imageUrl:
+      //       'https://www.retif.eu/media/catalog/category/Sac_kraft_poignee_plate_2.jpg',
+      //     id: 'kjsndfoiew8493wwd',
+      //     title: 'Sac Papier Premium',
+      //     description: 'Sac en Papier de qualité Premium'
+      //   },
+      //   {
+      //     imageUrl:
+      //       'http://www.sudemballages.fr/site/images/normal/sac%20personnlise%20%20papier%20kraft%20blanc.jpg',
+      //     id: 'jsd8984932d',
+      //     title: 'Sac Papier Logo',
+      //     description: 'Sac en Papier avec logos et publicité'
+      //   },
+      //   {
+      //     imageUrl:
+      //       'http://www.detailspourinvites.com/32607-thickbox_default/sac-en-papier-d-co.jpg',
+      //     id: 'kddi984849377',
+      //     title: 'Sac en Papier Deco',
+      //     description: 'Sac en Papier décoré'
+      //   },
+      //   {
+      //     imageUrl:
+      //       'http://i2.cdscdn.com/pdt2/5/3/4/1/300x300/auc3700265803534/rw/salon-de-jardin-haut-avec-parasol-manhattan.jpg',
+      //     id: 'wuew9283we',
+      //     title: 'Salon Jardin',
+      //     description: 'Salon complet pour jardin'
+      //   },
+      //   {
+      //     imageUrl:
+      //       'http://i2.cdscdn.com/pdt2/9/5/4/1/300x300/mia4056282421954/rw/parasol-de-jardin-terrasse-deporte-rond-avec-maniv.jpg',
+      //     id: 'uiewuieuw',
+      //     title: 'Parasol de Jardin',
+      //     description: 'Parasol de Jardin ou Terrasse'
+      //   },
+      //   {
+      //     imageUrl:
+      //       'https://img1.etsystatic.com/200/0/13512889/il_340x270.1284844519_8mmy.jpg',
+      //     id: 'sdjdur',
+      //     title: 'Verres Fancy',
+      //     description: 'Verres à Vin personnalisés'
+      //   },
+      //   {
+      //     imageUrl:
+      //       'http://i2.cdscdn.com/pdt2/0/0/8/1/300x300/auc3561864810008/rw/porte-cle-sifflez-c-est-trouv.jpg',
+      //     id: '394nbskjdf',
+      //     title: 'Porte Clés',
+      //     description: 'Porte Clés avec LED et Bippeur'
+      //   },
+      //   {
+      //     imageUrl:
+      //       'http://www.monproduitdecom.com/images/produits/casquettes-6158.jpg',
+      //     id: 'mksd9275',
+      //     title: 'Casquettes avec Logo',
+      //     description: 'Casquettes avec Logo personnalisé'
+      //   }
+      // ]
     }
+  },
+  created () {
+    this.getItems()
   },
   methods: {
     viewItem (item) {
       this.itemDialog = true
       this.item.id = item.id
       this.item.imageUrl = item.imageUrl
-      this.item.client = item.client
       this.item.title = item.title
       this.item.description = item.description
-      this.item.price = item.price
-      this.item.quantity = item.quantity
     },
     submit (item) {
-      this.item.imageUrl = item.imageUrl
-      this.item.title = item.title
-      this.item.description = item.description
-      this.item.id = 'skmcieo23'
-      this.items.push(item)
+      item.imageUrl = this.item.imageUrl
+      item.title = this.item.title
+      item.description = this.item.description
+      // item.id = Math.random().toString(36).substring(2)
+      firebase.collection('items').add(item)
+        .then(response => {
+          console.log(response)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      console.log(item)
+      // this.items.push(item)
+      // close dialog
       this.addDialog = false
+      this.getItems()
+    },
+    getItems () {
+      let itemCol = []
+      firebase.collection('items').get()
+        .then(response => {
+          response.forEach(val => {
+            const newItem = {
+              id: val.id,
+              imageUrl: val.data().imageUrl,
+              title: val.data().title,
+              description: val.data().description
+            }
+            itemCol.push(newItem)
+            console.log(val.id, ' => ', val.data())
+          })
+          console.log(itemCol)
+          this.items = itemCol
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   }
 }
@@ -222,6 +252,11 @@ export default {
   background-color: rgba(0, 0, 0, 0.5);
   font-size: 2em;
   bottom: 50px;
+}
+@media (max-width: 990px) {
+  .resizeimg {
+    height: 150px;
+  }
 }
 </style>
 
