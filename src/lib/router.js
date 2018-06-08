@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/Home'
+import Catalog from '@/components/Catalog'
 import Dashboard from '@/components/Dashboard'
 import Clients from '@/components/Clients'
 import Suppliers from '@/components/Suppliers'
 import Orders from '@/components/Orders'
+import Settings from '@/components/Settings'
 
 Vue.use(Router)
 
@@ -13,8 +14,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Home',
-      component: Home
+      name: 'Catalog',
+      component: Catalog
     },
     {
       path: '/dashboard',
@@ -35,6 +36,11 @@ export default new Router({
       path: '/Orders',
       name: 'orders',
       component: Orders
+    },
+    {
+      path: '/settings',
+      name: 'Settings',
+      component: Settings
     }
   ]
 })

@@ -48,7 +48,7 @@
 			  </v-btn>
 		  </v-toolbar-items>
 	  </v-toolbar>
-    <!-- About dialog -->
+    <!-- Login dialog -->
     <v-dialog v-model="loginDialog" temporary max-width="400">
       <v-card fluid>
         <v-toolbar flat>
@@ -73,6 +73,7 @@
         :counter="32"
         :rules="passwordRules"
         required
+        @submit="logUserIn"
         ></v-text-field>
         <v-spacer></v-spacer>              
         <v-btn
@@ -122,7 +123,7 @@
     <v-flex xs12 class="mb-3"></v-flex>
     <v-footer>
       <v-spacer></v-spacer>
-      <span>&copy; Aries.io 2017 </span>
+      <span>&copy; 2018 IRON Technologies </span>
       <v-spacer></v-spacer>
     </v-footer>
   </v-app>
@@ -144,8 +145,8 @@ export default {
       },
       sideNav: 'persistent',
       sideNavItems: [
-        { icon: 'dashboard', title: 'Tableau de Bord', link: '/dashboard' },
         { icon: 'card_giftcard', title: 'Catalogue', link: '/' },
+        { icon: 'dashboard', title: 'Statistiques', link: '/dashboard' },
         { icon: 'shopping_cart', title: 'Commandes', link: '/orders' },
         { icon: 'group', title: 'Clients', link: '/clients' },
         { icon: 'group_work', title: 'Fournisseurs', link: '/suppliers' }
@@ -189,8 +190,9 @@ export default {
         })
         .catch((error) => {
           console.log(error.message)
+          this.btnLoading = false
           alert(error)
-          this.loginDialog = false
+          // this.loginDialog = false
         })
     },
     logUserOut () {

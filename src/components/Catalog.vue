@@ -33,7 +33,13 @@
       </v-flex>
       <v-flex xs3 v-for="item in items" :key="item.id">
         <v-card class="mb-3 mr-3" @click.native.stop="viewItem(item)" style="cursor: pointer" :hover=true :ripple=true>
-          <v-card-media :src="item.imageUrl" height="150px"></v-card-media>
+          <v-card-media :src="item.imageUrl" height="150px" contain>
+            <v-container fill-height fluid>
+            <v-layout fill-height>
+              
+            </v-layout>
+          </v-container>
+          </v-card-media>
           <v-card-title primary-title>
             <div>
               <h3 class='headline mb-0'>{{item.title}}</h3>
@@ -57,7 +63,7 @@
         </v-toolbar-title>
       </v-toolbar>
       <v-container>
-        <v-card-media :src="item.imageUrl" height="400px"></v-card-media>
+        <v-card-media :src="item.imageUrl" height="400px" contain></v-card-media>
         <v-list>
           <v-list-tile>
           {{item.description}}              

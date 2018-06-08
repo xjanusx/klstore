@@ -29,7 +29,7 @@
           <template slot="items" slot-scope="props">
             <tr @click="select(props.item)" style="cursor: pointer">
               <!-- <td>{{ props.item.name }}</td> -->
-              <td class="text-xs-left"> <img :src="props.item.imageUrl" height="100px" /></td>
+              <td class="text-xs-left"> <img :src="props.item.imageUrl" height="100px" contain/></td>
               <td class="text-xs-left">{{ props.item.id }}</td>
               <td class="text-xs-left">{{ props.item.client }}</td>
               <td class="text-xs-left">{{ props.item.price}}</td>
@@ -46,18 +46,36 @@
     </v-layout>
   </v-container>
   <!-- Dialogs -->
-    <v-dialog v-model="itemDialog" max-width="800px">
+    <v-dialog v-model="orderDialog" 
+        fullscreen
+        hide-overlay
+        transition="dialog-bottom-transition"
+        scrollable >
+        <v-container fluid>
+        <v-card>
       <v-card v-model="item">
         <v-toolbar flat>
           <h1>
            {{item.title}}
           </h1>
+          <v-spacer></v-spacer>
+          <v-btn
+            dark
+            fab
+            top
+            right
+            color="pink"
+            @click="orderDialog=false"
+          >
+            <v-icon>close</v-icon>
+         </v-btn>
         </v-toolbar>
         <v-container>
-          <v-card-media :src="item.imageUrl" height="600px"></v-card-media>
+          <v-card-media :src="item.imageUrl" height="300px" contain background-color="grey lighten-5"></v-card-media>
+          <v-divider></v-divider>
           <v-list>
             <v-list-tile>
-            Client: {{item.client}}              
+            <h1>Client: {{item.client}} </h1>
             </v-list-tile>
             <v-list-tile>
             N°: {{item.id}}              
@@ -74,6 +92,8 @@
           </v-list>
         </v-container>
       </v-card>
+      </v-card>
+      </v-container>
     </v-dialog>  
   </v-layout>
 </template>
@@ -83,7 +103,7 @@
 export default {
   data () {
     return {
-      itemDialog: false,
+      orderDialog: false,
       search: '',
       headers: [
         { text: 'Aperçu', value: 'imageUrl', align: 'left' },
@@ -188,7 +208,7 @@ export default {
   },
   methods: {
     select (item) {
-      this.itemDialog = true
+      this.orderDialog = true
       this.item.id = item.id
       this.item.imageUrl = item.imageUrl
       this.item.client = item.client

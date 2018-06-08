@@ -5,7 +5,7 @@
       <v-flex xs12>
         <v-toolbar flat class="mb-3">
           <v-toolbar-title>
-            Tableau de Bord
+            Statistiques
           </v-toolbar-title>
         </v-toolbar>
       </v-flex>
