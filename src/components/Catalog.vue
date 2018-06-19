@@ -31,12 +31,14 @@
         </v-text-field>
       </v-flex>
       </v-flex>
+      <v-flex xs12 v-if="loading">
+        <v-progress-linear :indeterminate="true" primary></v-progress-linear>
+      </v-flex>
       <v-flex xs3 v-for="item in items" :key="item.id">
         <v-card class="mb-3 mr-3" @click.native.stop="viewItem(item)" style="cursor: pointer" :hover=true :ripple=true>
           <v-card-media :src="item.imageUrl" height="150px" contain>
             <v-container fill-height fluid>
             <v-layout fill-height>
-              
             </v-layout>
           </v-container>
           </v-card-media>
@@ -127,6 +129,7 @@ export default {
   data () {
     return {
       search: '',
+      loading: false,
       itemDialog: false,
       addDialog: false,
       item: {
@@ -226,6 +229,7 @@ export default {
       this.getItems()
     },
     getItems () {
+      this.loading = true
       let itemCol = []
       firebase.collection('items').get()
         .then(response => {
@@ -241,6 +245,7 @@ export default {
           })
           console.log(itemCol)
           this.items = itemCol
+          this.loading = false
         })
         .catch(error => {
           console.log(error)
