@@ -138,10 +138,13 @@ export default {
       loginDialog: false,
       userDialog: false,
       user: {
+        id: null,
         name: null,
         email: null,
         profile: null,
-        lastlog: null
+        lastlog: null,
+        phoneNumber: null,
+        created: null
       },
       sideNav: 'persistent',
       sideNavItems: [
@@ -174,15 +177,46 @@ export default {
       this.btnLoading = true
       firebase.app.auth().signInWithEmailAndPassword(this.email, this.password)
         .then((res) => {
+          console.log(res)
+          this.user.uid = res.uid
           this.user.email = res.email
           this.user.lastlog = res.metadata.lastSignInTime
+          this.user.created = res.metadata.creationTime
+          // this.user.name = res.displayName
+          // this.user.profile = res.profile
+          // this.loginDialog = false
+          // this.isLoggedIn = true
+          // alert({
+          //   message: 'Logged in as ' + this.user.name,
+          //   timeout: 2000
+          // })
+          // this.btnLoading = false
+          // this.sideNav = 'persistent'
           firebase.collection('users').where('email', '==', this.email).get().then(querySnapshot => {
+            console.log(querySnapshot)
             querySnapshot.forEach(val => {
-              this.user.name = val.data().name
-              this.user.profile = val.data().profile
+              console.log(val)
+              const currentUser = {
+                uid: this.user.uid,
+                id: val.id,
+                name: val.data().name,
+                email: val.data().email,
+                phoneNumber: val.data().phoneNumber,
+                created: this.user.created,
+                lastlog: this.user.lastlog,
+                profile: val.data().profile
+              }
+              // Update data in Users' database /////////////////////////////////
+              firebase.collection('users').doc(currentUser.id).set(currentUser)
+                .then(res => {
+                  console.log(res)
+                })
+                .catch(error => {
+                  console.log('Error when setting LastLog: ' + error)
+                })
+              alert('Logged in as ' + currentUser.name)
               this.loginDialog = false
               this.isLoggedIn = true
-              // alert('Logged in as ' + this.user.name)
               this.btnLoading = false
               this.sideNav = 'persistent'
             })
