@@ -100,7 +100,7 @@
         <v-card-text>
           <div class="grey--text">
             <p>
-            {{user.email}}              
+            Email: {{user.email}}              
             </p>
             <p>
               Profil: {{user.profile}}
@@ -206,6 +206,8 @@ export default {
                 lastlog: this.user.lastlog,
                 profile: val.data().profile
               }
+              this.user.name = currentUser.name
+              this.user.profile = currentUser.profile
               // Update data in Users' database /////////////////////////////////
               firebase.collection('users').doc(currentUser.id).set(currentUser)
                 .then(res => {
@@ -214,7 +216,7 @@ export default {
                 .catch(error => {
                   console.log('Error when setting LastLog: ' + error)
                 })
-              alert('Logged in as ' + currentUser.name)
+              // alert('Logged in as ' + currentUser.name)
               this.loginDialog = false
               this.isLoggedIn = true
               this.btnLoading = false

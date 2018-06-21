@@ -36,7 +36,8 @@
           :loading="loading"
         >
           <template slot="items" slot-scope="props">
-            <tr @click="select(props.item)" style="cursor: pointer">
+            <tr>
+            <!-- <tr @click="select(props.item)" style="cursor: pointer"> -->
               <!-- <td>{{ props.item.name }}</td> -->
               <!-- <td class="text-xs-left">{{ props.item.id }}</td> -->
               <td class="text-xs-left">{{ props.item.name }}</td>
@@ -46,21 +47,16 @@
               <td class="text-xs-left">{{ props.item.created}}</td>
               <td class="text-xs-left">{{ props.item.lastlog}}</td>
               <td class="text-xs-left">
-                <v-btn
-                  dark
-                  flat
-                  color="green"
-                >
+                <span>
+                <v-btn dark small flat fab color="green">
                   <v-icon>edit</v-icon>
                 </v-btn>
-                <span></span>
-                <v-btn
-                  dark
-                  flat
-                  color="red"
-                >
+                <span>
+                <v-btn dark small flat fab color="red" @click="deleteUser(props.item)">
                   <v-icon>delete</v-icon>
                 </v-btn>
+                </span>
+                </span>
               </td>
             </tr>
           </template>
@@ -127,9 +123,8 @@
         <v-select
           :items="profilesList"
           v-model="profile"
-          label="Profile"
+          label="Profil"
           single-line
-          :error-messages="['Veuillez sélectionner un profile']"
         ></v-select>
         <v-spacer></v-spacer>              
         <v-btn
@@ -195,7 +190,7 @@ export default {
         { text: 'Téléphone', value: 'phoneNumber' },
         { text: 'Création', value: 'created' },
         { text: 'Dernière connexion', value: 'lastlog' },
-        { text: 'Actions', sortable: false }
+        { text: 'Actions', sortable: false, align: 'center' }
       ],
       profilesList: [
         'Admin', 'User'
@@ -231,6 +226,7 @@ export default {
         .catch((error) => {
           console.log(error)
         })
+      this.signupDialog = false
       this.getUsers()
     },
     getUsers () {
@@ -256,6 +252,29 @@ export default {
         .catch((error) => {
           console.log(error)
         })
+    },
+    deleteUser (user) {
+      firebase.collection('users').where('name', '==', user.name).get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(val => {
+            const mUser = {
+              uid: val.id
+            }
+            firebase.collection('users').doc(mUser.uid).delete()
+            .then(res => {
+              console.log(res)
+            })
+          })
+          this.getUsers()
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      const sUser = {
+        id: user.id,
+        name: user.name
+      }
+      console.log(sUser)
     }
   }
 }
