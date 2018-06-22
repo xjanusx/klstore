@@ -228,7 +228,7 @@ export default {
           console.log(error.message)
           this.btnLoading = false
           alert(error)
-          // this.loginDialog = false
+          this.loginDialog = false
         })
     },
     logUserOut () {
