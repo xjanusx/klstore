@@ -4,10 +4,19 @@ const { reactiveProp } = mixins
 export default {
   extends: Bar,
   mixins: [reactiveProp],
-  props: ['options'],
+  props: ['chartData', 'options'],
   mounted () {
-    // this.chartData is created in the mixin.
-    // If you want to pass options please create a local options object
-    this.renderChart(this.chartData, this.options)
-  }
+    // Overwriting base render method with actual data.
+    this.renderChart({
+      labels: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre'],
+      datasets: [
+        {
+          label: 'Comparaison des Commandes par Période',
+          backgroundColor: '#6600ff',
+          data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
+        }
+      ]
+    })
+  },
+  name: 'bar-chart'
 }
