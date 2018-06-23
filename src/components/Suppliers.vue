@@ -47,7 +47,7 @@
                   <v-icon>edit</v-icon>
                 </v-btn>
                 <span>
-                <v-btn dark flat fab color="red" small>
+                <v-btn dark flat fab color="red" small @click="deleteSupplier(props.item)">
                   <v-icon>delete</v-icon>
                 </v-btn>
                 </span>
@@ -183,7 +183,12 @@ export default {
           console.log(error)
         })
       this.addSupplierDialog = false
-      this.su = null
+      this.name = null
+      this.phone = null
+      this.email = null
+      this.skill = null
+      this.city = null
+      this.country = null
       this.getSuppliers()
     },
     getSuppliers () {
@@ -207,6 +212,25 @@ export default {
           this.loading = false
         })
         .catch((error) => {
+          console.log(error)
+        })
+    },
+    deleteSupplier (supplier) {
+      firebase.collection('suppliers').where('name', '==', supplier.name).get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(val => {
+            const mSupplier = {
+              id: val.id
+            }
+            firebase.collection('suppliers').doc(mSupplier.id).delete()
+            .then(res => {
+              console.log(res)
+            })
+          })
+          console.log('Supplier: ' + supplier.name + ' deleted successfully.')
+          this.getSuppliers()
+        })
+        .catch(error => {
           console.log(error)
         })
     }

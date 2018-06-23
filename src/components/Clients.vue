@@ -46,7 +46,7 @@
                   <v-icon>edit</v-icon>
                 </v-btn>
                 <span>
-                <v-btn dark flat fab color="red" small>
+                <v-btn dark flat fab color="red" small @click="deleteClient(props.item)">
                   <v-icon>delete</v-icon>
                 </v-btn>
                 </span>
@@ -200,6 +200,24 @@ export default {
           this.loading = false
         })
         .catch((error) => {
+          console.log(error)
+        })
+    },
+    deleteClient (client) {
+      firebase.collection('clients').where('name', '==', client.name).get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(val => {
+            const mClient = {
+              id: val.id
+            }
+            firebase.collection('clients').doc(mClient.id).delete()
+            .then(res => {
+              console.log(res)
+            })
+          })
+          this.getClients()
+        })
+        .catch(error => {
           console.log(error)
         })
     }

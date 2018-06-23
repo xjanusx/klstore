@@ -53,13 +53,13 @@
           </template>
           <v-alert slot="no-results" :value="true" color="error" icon="warning">
             Your search for "{{ search }}" found no results.
-          </v-alert>
+          </v-alert>w
         </v-data-table>
       </v-card>
         </v-flex>
     </v-layout>
   </v-container>
-  <!-- Dialogs -->
+  <!-- Order Dialog -->
     <v-dialog v-model="orderDialog" 
         fullscreen
         hide-overlay
@@ -67,7 +67,20 @@
         scrollable >
         <v-container fluid>
         <v-card>
-      <v-card v-model="order">
+          <v-tabs
+            v-model="activeTab"
+            color="pink-lighten"
+            dark
+            slider-color="white"
+          >
+            <v-tab v-for="tab in tabs" :key="tab.id" ripple>
+              {{ tab.title }}
+            </v-tab>
+            <v-tab-item
+              v-for="n in 3"
+              :key="n"
+            >
+        <v-card v-model="order">
         <v-toolbar flat>
           <h1>
            {{order.title}}
@@ -85,27 +98,29 @@
          </v-btn>
         </v-toolbar>
         <v-container>
-          <v-card-media :src="order.imageUrl" height="300px" contain background-color="grey lighten-5"></v-card-media>
-          <v-divider></v-divider>
-          <v-list>
-            <v-list-tile>
-            <h1><b>Client: </b> {{order.client}} </h1>
-            </v-list-tile>
-            <v-list-tile>
-            <b>N°: </b> {{order.id}}            
-            </v-list-tile>
-            <v-list-tile>
-            <b>Quantité demandée: </b> {{order.quantity}}              
-            </v-list-tile>
-            <v-list-tile>
-            <b>Prix Unitaire: </b> {{order.price}}              
-            </v-list-tile>
-            <v-list-tile>
-            <b>Description: </b> {{order.description}}              
-            </v-list-tile>
-          </v-list>
-        </v-container>
-      </v-card>
+            <v-card-media :src="order.imageUrl" height="300px" contain background-color="grey lighten-5"></v-card-media>
+            <v-divider></v-divider>
+            <v-list>
+              <v-list-tile>
+              <h1><b>Client: </b> {{order.client}} </h1>
+              </v-list-tile>
+              <v-list-tile>
+              <b>N°: </b> {{order.id}}            
+              </v-list-tile>
+              <v-list-tile>
+              <b>Quantité demandée: </b> {{order.quantity}}              
+              </v-list-tile>
+              <v-list-tile>
+              <b>Prix Unitaire: </b> {{order.price}}              
+              </v-list-tile>
+              <v-list-tile>
+              <b>Description: </b> {{order.description}}              
+              </v-list-tile>
+            </v-list>
+          </v-container>
+          </v-card>
+          </v-tab-item>
+         </v-tabs>
       </v-card>
       </v-container>
     </v-dialog>  
@@ -204,7 +219,12 @@ export default {
         client: '',
         date: ''
       },
-      orders: []
+      orders: [],
+      tabs: [
+        { id: 1, title: 'Description' },
+        { id: 2, title: 'Détails Techniques' },
+        { id: 3, title: 'Facturation' }
+      ]
     }
   },
   created () {

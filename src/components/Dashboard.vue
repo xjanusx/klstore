@@ -17,7 +17,7 @@
       </v-flex>
       <v-flex xs3 ma-2>
         <v-card :hover=true :ripple=true>
-          <v-card-text>Répartition des commandes par Types et Quantités demandés</v-card-text>
+          <v-card-text>Commandes par Types et Quantités demandés</v-card-text>
           <polar-chart></polar-chart>
         </v-card>
       </v-flex>
@@ -29,7 +29,7 @@
       </v-flex>
       <v-flex xs12 sm12 height="100px" class="mt-3">
         <v-card :hover=true :ripple=true>
-          <v-card-text>Evolution du chiffre d'affaires en M. F CFA par période (2017)</v-card-text>
+          <!-- <v-card-text>Evolution du chiffre d'affaires en M. F CFA par période (2017)</v-card-text> -->
           <line-chart :height="50" :options="{responsive:false}"></line-chart>
         </v-card>
       </v-flex>
