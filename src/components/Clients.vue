@@ -20,8 +20,20 @@
       </v-btn>
         </v-toolbar>
       </v-flex>
+      <v-spacer></v-spacer>
       <v-container fluid>
         <v-layout wrap>
+        <v-flex xs12>
+        <v-flex sm3 right>
+            <v-text-field
+            append-icon="search"
+            label="Rechercher"
+            single-line
+            hide-details
+            v-model="search"
+          ></v-text-field>
+        </v-flex>
+        </v-flex>
         <v-flex mb-3 xs12>
         <v-card>
           <v-data-table
@@ -42,7 +54,7 @@
               <td class="text-xs-left">{{ props.item.country}}</td>
               <td class="text-xs-right">
                 <span>
-                <v-btn dark flat fab color="green" small>
+                <v-btn dark flat fab color="green" small @click="editClient(props.item)">
                   <v-icon>edit</v-icon>
                 </v-btn>
                 <span>
@@ -220,6 +232,9 @@ export default {
         .catch(error => {
           console.log(error)
         })
+    },
+    editClient (client) {
+      console.log(client)
     }
   }
 }

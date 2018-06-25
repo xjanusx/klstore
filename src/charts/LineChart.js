@@ -18,7 +18,7 @@ export default {
       labels: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre'],
       datasets: [
         {
-          label: 'Evolution du Chiffre d\'affaires par Période (M de F CFA)',
+          label: 'Chiffre d\'affaires (en M de F CFA)',
           backgroundColor: '#f87979',
           data: [12, 6, 8, 9, 7, 12, 9, 8, 4, 2, 1, 11]
         }

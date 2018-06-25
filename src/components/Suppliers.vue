@@ -22,6 +22,17 @@
       </v-flex>
       <v-container fluid>
         <v-layout wrap>
+          <v-flex xs12>
+        <v-flex sm3 right>
+            <v-text-field
+            append-icon="search"
+            label="Rechercher"
+            single-line
+            hide-details
+            v-model="search"
+          ></v-text-field>
+        </v-flex>
+        </v-flex>
         <v-flex mb-3 xs12>
         <v-card>
           <v-data-table

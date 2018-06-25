@@ -68,7 +68,6 @@
         <v-container fluid>
         <v-card>
           <v-tabs
-            v-model="activeTab"
             color="pink-lighten"
             dark
             slider-color="white"
