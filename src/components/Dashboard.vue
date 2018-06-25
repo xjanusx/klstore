@@ -10,9 +10,9 @@
         </v-toolbar>
       </v-flex>
       <v-flex xs3 ma-2>
-        <v-card :hover=true :ripple=true>
+        <v-card :hover=true :ripple="true">
           <v-card-text>Répartition du nombre de commandes par Client</v-card-text>
-          <pie-chart></pie-chart>
+          <pie-chart ref="piechart"></pie-chart>
         </v-card>
       </v-flex>
       <v-flex xs3 ma-2>
