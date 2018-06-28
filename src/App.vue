@@ -123,7 +123,7 @@
     <v-flex xs12 class="mb-3"></v-flex>
     <v-footer>
       <v-spacer></v-spacer>
-      <span>&copy; 2018 IRON Technologies  (KL Store v.{{version}})</span>
+      <span>&copy; 2018 IRON Technologies  (v.{{version}})</span>
       <v-spacer></v-spacer>
     </v-footer>
   </v-app>

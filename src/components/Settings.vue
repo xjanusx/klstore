@@ -11,27 +11,42 @@
         </v-toolbar>
         <v-container fluid>
         <v-layout wrap>
-        <v-flex mb-3 xs12>
+        <v-flex xs12>
         <v-card>
-          <v-toolbar flat class="mb-3">
-          <v-toolbar-title>
-            Utilisateurs
-          </v-toolbar-title>
-            <v-btn
+        <v-container fluid>
+        <v-layout wrap>
+        <v-flex xs12 mb-6>
+          <h2>A propos</h2>
+        </v-flex>
+        <v-flex mb-3 xs12>
+        <v-card flat mb-3>
+          KL Store version 0.3.1-alpha <br>
+          Développé par <a href="http://iron-technologies.com">IRON Technologies</a> <br> 
+          K Janus Yacinthus | janusyacinthus@iron-technologies.com 
+        </v-card>
+        </v-flex>
+        </v-layout>
+        </v-container>
+        </v-card>
+         <v-flex mb-3></v-flex>
+        <v-card>
+        <v-container fluid>
+        <v-layout wrap>
+        <v-flex xs12>
+          <h2>Utilisateurs</h2>
+          <v-flex mb-5>
+<v-btn
               absolute
-              dark
               fab
-              bottom
+              dark
               right
-              color="pink"
+              color="blue"
               @click="signupDialog=true"
             >
         <v-icon>add</v-icon>
       </v-btn>
-        </v-toolbar>
-        <v-container fluid>
-        <v-layout wrap>
-        <v-flex xs12>
+          </v-flex>
+          
         <v-flex sm3 right>
             <v-text-field
             append-icon="search"
